@@ -21,12 +21,12 @@
 
             <NavigationView.PaneHeader>
                 <Grid Height="48"
-                  VerticalAlignment="Center"
-                  Margin="10,10,10,10">
+                      VerticalAlignment="Center"
+                      Margin="10,10,10,10">
                     <TextBlock Text="증거 분석"
-                    FontSize="28"
-                    VerticalAlignment="Center"
-                    Margin="10" />
+                        FontSize="28"
+                        VerticalAlignment="Center"
+                        Margin="10" />
                 </Grid>
             </NavigationView.PaneHeader>
 
@@ -39,7 +39,7 @@
                     </NavigationViewItem.Icon>
 
                     <NavigationViewItem.MenuItems>
-                        <NavigationViewItem Content="케이스 정보" Tag="CaseImformation">
+                        <NavigationViewItem Content="케이스 생성" Tag="CreateCasePage">
                             <NavigationViewItem.Icon>
                                 <FontIcon Glyph="&#xE792;" />
                             </NavigationViewItem.Icon>
@@ -47,7 +47,7 @@
                     </NavigationViewItem.MenuItems>
                 </NavigationViewItem>
 
-                <!-- 증거 소스 -->
+                <!-- 증거 소스 (필요시 나중에 구현) -->
                 <NavigationViewItem Content="증거 소스" Icon="Save" SelectsOnInvoked="False" IsExpanded="True">
                     <NavigationViewItem.MenuItems>
                         <NavigationViewItem Content="정적 이미지" Icon="Save" Tag="StaticAnalysis" />
@@ -67,10 +67,7 @@
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>
-                <NavigationViewItem Content="설정"
-                    Icon="Setting"
-                    Tag="SettingsPage"
-                    SelectsOnInvoked="False" />
+                <NavigationViewItem Content="설정" Icon="Setting" Tag="SettingsPage" SelectsOnInvoked="False" />
             </NavigationView.PaneFooter>
 
             <Frame x:Name="contentFrame" />

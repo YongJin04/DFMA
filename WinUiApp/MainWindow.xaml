@@ -3,17 +3,9 @@
     x:Class="WinUiApp.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:WinUiApp"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Title="DF_m@ster">
+    xmlns:local="using:WinUiApp">
 
-    <Window.SystemBackdrop>
-        <MicaBackdrop />
-    </Window.SystemBackdrop>
-
-    <Grid>
-        <Frame x:Name="RootFrame"/>
+    <Grid Background="{ThemeResource AppBaseBackgroundBrush}">
+        <Frame x:Name="RootFrame" />
     </Grid>
 </Window>

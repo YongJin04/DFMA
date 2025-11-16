@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using System;
 using System.IO;
 using Windows.ApplicationModel;
@@ -13,11 +14,14 @@ namespace WinUiApp
         public MainWindow()
         {
             this.InitializeComponent();
-            SetWindowIcon();
 
-            var v = Package.Current.Id.Version;
+            this.SystemBackdrop = null;
+
+            var v = Package.Current.Id.Version;  // 버전 정보 가져오기
             string versionString = $"{v.Major}.{v.Minor}.{v.Build}.{v.Revision}";
             this.AppWindow.Title = $"DF_m@ster v{versionString}";
+
+            SetWindowIcon();  // 아이콘 설정
 
             RootFrame.PointerPressed += MainWindow_PointerPressed;  // 마우스 핸들링
         }

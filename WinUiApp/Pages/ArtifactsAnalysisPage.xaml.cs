@@ -11,10 +11,32 @@ namespace WinUiApp.Pages
         public ArtifactsAnalysisPage()
         {
             this.InitializeComponent();
+
+            // 페이지 처음 로드 시 "케이스 정보" 페이지 로드
+            this.Loaded += ArtifactsAnalysisPage_Loaded;
         }
 
+        // CaseImformation 페이지 기본 로드
+        private void ArtifactsAnalysisPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            NavigationViewItem? caseItem = null;
 
-        private void NavigationView_SelectionChanged(    // 네비게이션 내부 페이지 로드
+            foreach (var item in nvSample.MenuItems.OfType<NavigationViewItem>())
+            {
+                caseItem = FindNavigationViewItemByTagRecursive(item, "CaseImformation");
+                if (caseItem != null)
+                    break;
+            }
+
+            if (caseItem != null)
+            {
+                nvSample.SelectedItem = caseItem;
+                contentFrame.Navigate(typeof(CaseImformation));
+            }
+        }
+
+        // 네비게이션 내부 페이지 로드
+        private void NavigationView_SelectionChanged(
             NavigationView sender,
             NavigationViewSelectionChangedEventArgs args)
         {
@@ -37,7 +59,8 @@ namespace WinUiApp.Pages
             }
         }
 
-        private NavigationViewItem? FindNavigationViewItemByTagRecursive(  // 네비게이션 트리 내부 Tag 서치 메서드
+        // 네비게이션 트리 내부 Tag 서치 메서드
+        private NavigationViewItem? FindNavigationViewItemByTagRecursive(
             NavigationViewItem parent,
             string tag)
         {
@@ -54,7 +77,8 @@ namespace WinUiApp.Pages
             return null;
         }
 
-        private void NavigationView_BackRequested(  // 뒤로가기 버튼 호출
+        // 뒤로가기 버튼 호출
+        private void NavigationView_BackRequested(
             NavigationView sender,
             NavigationViewBackRequestedEventArgs args)
         {

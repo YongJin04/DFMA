@@ -72,6 +72,7 @@
     <None Remove="Assets\Icons\SmallTile.scale-400.png" />
     <None Remove="Assets\Icons\Wide310x150Logo.scale-400.png" />
     <None Remove="Pages\ArtifactsAnalysis\CaseImformation.xaml" />
+    <None Remove="Pages\Settings\Settings.xaml" />
     <None Remove="Pages\StartPage.xaml" />
   </ItemGroup>
 
@@ -130,6 +131,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\CaseAnalysisPage\CreateCasePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\Settings\Settings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   
   <!--

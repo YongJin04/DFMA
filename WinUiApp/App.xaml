@@ -4,13 +4,32 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:WinUiApp">
+
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- 기본 WinUI 컨트롤 리소스 -->
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
-            <!-- Other app resources here -->
+
+            <!-- 테마별 공통 배경색 정의 -->
+            <ResourceDictionary.ThemeDictionaries>
+
+                <!-- 앱이 Light 테마일 때 -->
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush
+                        x:Key="AppBaseBackgroundBrush"
+                        Color="#FFE0E0E0" />
+                </ResourceDictionary>
+
+                <!-- 앱이 Dark 테마일 때 -->
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush
+                        x:Key="AppBaseBackgroundBrush"
+                        Color="#FF202020" />
+                </ResourceDictionary>
+
+            </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
