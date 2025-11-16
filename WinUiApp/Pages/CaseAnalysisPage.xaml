@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page x:Class="WinUiApp.Pages.CaseAnalysisPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:WinUiApp.Pages"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid>
+        <NavigationView x:Name="nvSample"
+            IsSettingsVisible="False"
+            IsBackButtonVisible="Visible"
+            IsBackEnabled="True"
+            IsPaneToggleButtonVisible="False"
+            IsPaneOpen="True"
+            SelectionChanged="NavigationView_SelectionChanged"
+            BackRequested="NavigationView_BackRequested"
+            PaneDisplayMode="Left"
+            IsTabStop="False">
+
+            <NavigationView.PaneHeader>
+                <Grid Height="48"
+                  VerticalAlignment="Center"
+                  Margin="10,10,10,10">
+                    <TextBlock Text="증거 분석"
+                    FontSize="28"
+                    VerticalAlignment="Center"
+                    Margin="10" />
+                </Grid>
+            </NavigationView.PaneHeader>
+
+            <NavigationView.MenuItems>
+
+                <!-- 증거 케이스 -->
+                <NavigationViewItem Content="증거 케이스" SelectsOnInvoked="False" IsExpanded="True">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE792;" />
+                    </NavigationViewItem.Icon>
+
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem Content="케이스 정보" Tag="CaseImformation">
+                            <NavigationViewItem.Icon>
+                                <FontIcon Glyph="&#xE792;" />
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                    </NavigationViewItem.MenuItems>
+                </NavigationViewItem>
+
+                <!-- 증거 소스 -->
+                <NavigationViewItem Content="증거 소스" Icon="Save" SelectsOnInvoked="False" IsExpanded="True">
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem Content="정적 이미지" Icon="Save" Tag="StaticAnalysis" />
+                        <NavigationViewItem Content="동적 디스크" Tag="DynamicAnalysis">
+                            <NavigationViewItem.Icon>
+                                <FontIcon Glyph="&#xEDA2;" />
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                        <NavigationViewItem Content="원격 디스크" Tag="RemoteAnalysis">
+                            <NavigationViewItem.Icon>
+                                <FontIcon Glyph="&#xE839;" />
+                            </NavigationViewItem.Icon>
+                        </NavigationViewItem>
+                    </NavigationViewItem.MenuItems>
+                </NavigationViewItem>
+
+            </NavigationView.MenuItems>
+
+            <NavigationView.PaneFooter>
+                <NavigationViewItem Content="설정"
+                    Icon="Setting"
+                    Tag="SettingsPage"
+                    SelectsOnInvoked="False" />
+            </NavigationView.PaneFooter>
+
+            <Frame x:Name="contentFrame" />
+
+        </NavigationView>
+    </Grid>
+</Page>
