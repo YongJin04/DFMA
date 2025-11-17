@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="WinUiApp.Pages.CaseAnalysis.EvidenceSource.StaticImage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinUiApp.Pages.CaseAnalysis.EvidenceSource"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid>
+        <!-- 상단 타이틀 / 본문 카드 레이아웃 -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Title -->
+            <RowDefinition Height="36"/>
+            <!-- Title 아래 여백 -->
+            <RowDefinition Height="*"/>
+            <!-- 본문 카드 -->
+        </Grid.RowDefinitions>
+
+        <!-- 페이지 좌상단 타이틀 -->
+        <TextBlock Grid.Row="0"
+            Text="정적 이미지"
+            FontSize="32"
+            FontWeight="SemiBold"
+            Margin="40,40,0,0" />
+
+        <!-- 본문 카드 -->
+        <Border Grid.Row="2"
+            Margin="40,0,40,40"
+            Padding="24"
+            CornerRadius="12"
+            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- 디스크 이미지 파일 -->
+                    <RowDefinition Height="16"/>
+                    <!-- 여백 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- 증거 추가 버튼 -->
+                    <RowDefinition Height="*"/>
+                    <!-- 여유 공간 -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- 하단 버튼 -->
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 디스크 이미지 파일 + 찾아보기 (여러 개) -->
+                <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <!-- 라벨 -->
+                        <RowDefinition Height="Auto"/>
+                        <!-- 목록 -->
+                    </Grid.RowDefinitions>
+
+                    <!-- 라벨 -->
+                    <TextBlock Grid.Row="0"
+                        Text="디스크 이미지 파일"
+                        FontWeight="SemiBold" />
+
+                    <!-- 목록 영역 : 첫 번째 칸은 XAML로 만들어두고, 나머지는 코드로 추가 -->
+                    <StackPanel x:Name="EvidenceStackPanel"
+                        Grid.Row="1"
+                        Margin="0,8,0,0">
+
+                        <!-- 1번 칸 -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox x:Name="CaseFolderPathTextBox"
+                                 Grid.Column="0"
+                                 IsReadOnly="True" />
+
+                            <Button Grid.Column="1"
+                                Content="찾아보기..."
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Click="BrowseFolderButton_Click"
+                                Tag="{Binding ElementName=CaseFolderPathTextBox}" />
+
+                            <!-- 삭제 버튼 -->
+                            <Button Grid.Column="2"
+                                Content="삭제"
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Click="DeleteEvidenceButton_Click"
+                                IsEnabled="False" />
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+
+                <!-- 증거 추가 버튼 -->
+                <Button Grid.Row="2"
+                    Grid.Column="0"
+                    Content="증거 추가"
+                    Width="120"
+                    Height="32"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Left"
+                    Click="AddEvidenceButton_Click" />
+
+                <!-- 하단 우측 이동 버튼 -->
+                <Button x:Name="GoToEvidenceProcessButton"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Content="증거 프로세싱"
+                    Width="160"
+                    Height="40"
+                    Margin="0,24,0,0"
+                    HorizontalAlignment="Right"
+                    Click="EvidenceProcess_Button_Click" />
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

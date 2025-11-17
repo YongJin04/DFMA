@@ -72,6 +72,10 @@
     <None Remove="Assets\Icons\SmallTile.scale-400.png" />
     <None Remove="Assets\Icons\Wide310x150Logo.scale-400.png" />
     <None Remove="Pages\ArtifactsAnalysis\CaseImformation.xaml" />
+    <None Remove="Pages\CaseAnalysis\EvidenceProcess\EvidenceProcess.xaml" />
+    <None Remove="Pages\CaseAnalysis\EvidenceSource\DynamicDisk.xaml" />
+    <None Remove="Pages\CaseAnalysis\EvidenceSource\RemoteDisk.xaml" />
+    <None Remove="Pages\CaseAnalysis\EvidenceSource\StaticImage.xaml" />
     <None Remove="Pages\Settings\Settings.xaml" />
     <None Remove="Pages\StartPage.xaml" />
   </ItemGroup>
@@ -126,12 +130,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!-- dll 아래의 모든 파일과 하위 폴더 -->
-    <Content Include="dll\EwfTools\**\*">
+    <!-- dll 폴더 전체 + 모든 하위 디렉터리 및 파일 포함 -->
+    <Content Include="dll\**\*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Interop\NativeSqliteHelper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
 
   <ItemGroup>
     <Page Update="Pages\CaseAnalysisPage\CreateCasePage.xaml">
@@ -141,6 +152,34 @@
 
   <ItemGroup>
     <Page Update="Pages\Settings\Settings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\CaseAnalysis\EvidenceCase\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\CaseAnalysis\EvidenceProcess\EvidenceProcess.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\CaseAnalysis\EvidenceSource\RemoteDisk.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\CaseAnalysis\EvidenceSource\DynamicDisk.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\CaseAnalysis\EvidenceSource\StaticImage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

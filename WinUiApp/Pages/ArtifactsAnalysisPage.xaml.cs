@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
 
 using WinUiApp.Pages.ArtifactsAnalysis;
 
@@ -8,12 +9,24 @@ namespace WinUiApp.Pages
 {
     public sealed partial class ArtifactsAnalysisPage : Page
     {
+        // EvidenceProcess → Navigate 시 넘겨주는 케이스 루트 경로
+        private string? _caseRootFromParameter;
+
         public ArtifactsAnalysisPage()
         {
             this.InitializeComponent();
 
             // 페이지 처음 로드 시 "케이스 정보" 페이지 로드
             this.Loaded += ArtifactsAnalysisPage_Loaded;
+        }
+
+        // StartPage / EvidenceProcess 에서 넘어올 때 파라미터 받기
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // EvidenceProcess에서 Navigate(typeof(ArtifactsAnalysisPage), caseRoot) 로 넘겨준 값
+            _caseRootFromParameter = e.Parameter as string;
         }
 
         // CaseImformation 페이지 기본 로드
@@ -31,7 +44,11 @@ namespace WinUiApp.Pages
             if (caseItem != null)
             {
                 nvSample.SelectedItem = caseItem;
-                contentFrame.Navigate(typeof(CaseImformation));
+
+                // EvidenceProcess에서 왔으면 _caseRootFromParameter 에 케이스 절대 경로가 있고,
+                // StartPage → "케이스 열기" 에서 왔으면 null 이라서 CaseImformation 쪽에서
+                // 빈 화면 + "케이스 폴더 경로" 찾아보기로만 열리게 된다.
+                contentFrame.Navigate(typeof(CaseImformation), _caseRootFromParameter);
             }
         }
 
@@ -50,7 +67,8 @@ namespace WinUiApp.Pages
             switch (tag)
             {
                 case "CaseImformation":
-                    contentFrame.Navigate(typeof(CaseImformation));
+                    // 현재 케이스 경로 파라미터를 항상 함께 넘긴다.
+                    contentFrame.Navigate(typeof(CaseImformation), _caseRootFromParameter);
                     break;
 
                 default:

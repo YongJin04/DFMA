@@ -10,55 +10,128 @@
 
     <Grid>
 
+        <!-- 상단 타이틀 / 본문 카드 레이아웃 -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Title -->
+            <RowDefinition Height="36"/>
+            <!-- Title 아래 여백 -->
+            <RowDefinition Height="*"/>
+            <!-- 본문 카드 -->
+        </Grid.RowDefinitions>
+
+        <!-- 페이지 좌상단 타이틀 -->
+        <TextBlock
+            Grid.Row="0"
+            Text="케이스 정보"
+            FontSize="32"
+            FontWeight="SemiBold"
+            Margin="40,40,0,0" />
+
+        <!-- 본문 카드 -->
         <Border
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
+            Grid.Row="2"
+            Margin="40,0,40,40"
             Padding="24"
             CornerRadius="12"
             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1">
 
-            <StackPanel Spacing="16">
+            <ScrollViewer>
+                <StackPanel>
 
-                <!-- 제목 -->
-                <TextBlock
-                    Text="케이스 정보"
-                    FontSize="24"
-                    FontWeight="SemiBold"
-                    HorizontalAlignment="Center"
-                    Margin="0,0,0,4" />
+                    <!-- 케이스 기본 정보 -->
+                    <TextBlock
+                        Text="케이스 정보"
+                        FontWeight="SemiBold"
+                        FontSize="20"
+                        Margin="0,0,0,16" />
 
-                <!-- 설명 -->
-                <TextBlock
-                    Text="EWF 관련 라이브러리를 로드하고 버전 정보를 확인합니다."
-                    Opacity="0.8"
-                    FontSize="14"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap"
-                    HorizontalAlignment="Center"
-                    Margin="0,0,0,8" />
+                    <!-- 케이스 이름 -->
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock
+                            Text="케이스 이름"
+                            FontWeight="SemiBold" />
+                        <TextBox
+                            x:Name="CaseNameTextBox"
+                            Margin="0,8,0,0"
+                            IsReadOnly="True" />
+                    </StackPanel>
 
-                <!-- 버튼 -->
-                <Button
-                    Content="libewf.dll 로드"
-                    Width="180"
-                    Height="40"
-                    HorizontalAlignment="Center"
-                    Click="LibewfLoadButton_Click" />
+                    <!-- 케이스 폴더 경로 + 찾아보기 -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                <!-- 상태 텍스트 -->
-                <TextBlock
-                    x:Name="LibewfStatusTextBlock"
-                    Text="아직 libewf.dll 을 로드하지 않았습니다."
-                    TextAlignment="Center"
-                    TextWrapping="Wrap"
-                    FontSize="13"
-                    HorizontalAlignment="Center"
-                    MaxWidth="360"
-                    Margin="0,8,0,0" />
+                        <!-- 라벨 -->
+                        <TextBlock
+                            Grid.Row="0"
+                            Text="케이스 폴더 경로"
+                            FontWeight="SemiBold" />
 
-            </StackPanel>
+                        <!-- 텍스트박스 + 버튼 -->
+                        <Grid
+                            Grid.Row="1"
+                            Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox
+                                x:Name="CaseFolderPathTextBox"
+                                IsReadOnly="True"
+                                Grid.Column="0" />
+
+                            <Button
+                                x:Name="BrowseCaseFolderButton"
+                                Grid.Column="1"
+                                Content="찾아보기..."
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Click="BrowseCaseFolderButton_Click" />
+                        </Grid>
+                    </Grid>
+
+                    <!-- 케이스 생성 시각 -->
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock
+                            Text="케이스 생성 시각"
+                            FontWeight="SemiBold" />
+                        <TextBox
+                            x:Name="CaseCreateTimeTextBox"
+                            Margin="0,8,0,0"
+                            IsReadOnly="True" />
+                    </StackPanel>
+
+                    <!-- 타임존 -->
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock
+                            Text="타임존"
+                            FontWeight="SemiBold" />
+                        <TextBox
+                            x:Name="TimezoneTextBox"
+                            Margin="0,8,0,0"
+                            IsReadOnly="True" />
+                    </StackPanel>
+
+                    <!-- 도구 버전 (Tool Version) -->
+                    <StackPanel Margin="0,0,0,0">
+                        <TextBlock
+                            Text="도구 버전"
+                            FontWeight="SemiBold" />
+                        <TextBox
+                            x:Name="ToolVersionTextBox"
+                            Margin="0,8,0,0"
+                            IsReadOnly="True" />
+                    </StackPanel>
+
+                </StackPanel>
+            </ScrollViewer>
+
         </Border>
     </Grid>
 </Page>
