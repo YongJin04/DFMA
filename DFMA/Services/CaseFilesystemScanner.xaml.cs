@@ -392,8 +392,7 @@ namespace WinUiApp.Services
             if (!File.Exists(dbPath))
                 return new List<string>();
 
-            Try(() => NativeDllManager.LoadNativeLibrary("sqlite3.dll", @"dll"));
-
+            // Microsoft.Data.Sqlite가 자동으로 네이티브 DLL을 관리합니다.
             int rc = NativeSqliteHelper.sqlite3_open_v2(
                 dbPath, out var db,
                 NativeSqliteHelper.SQLITE_OPEN_READWRITE, null);
@@ -411,22 +410,12 @@ namespace WinUiApp.Services
             }
         }
 
-        // sqlite3_exec 콜백 델리게이트 정의
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int ExecCallback(
-            IntPtr arg, int columnCount, IntPtr columnValues, IntPtr columnNames);
-
-        // sqlite3_exec 네이티브 함수 P/Invoke 선언
-        [DllImport("sqlite3", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        private static extern int sqlite3_exec(
-            IntPtr db, string sql, ExecCallback callback, IntPtr arg, out IntPtr errMsg);
-
         // evidence_source 테이블에서 StaticImage 타입의 value 컬럼만 추출하는 함수
         private static List<string> SelectEvidenceSourceStaticImagePaths(IntPtr db)
         {
             var list = new List<string>();
 
-            ExecCallback callback = (arg, columnCount, columnValues, columnNames) =>
+            NativeSqliteHelper.ExecCallback callback = (arg, columnCount, columnValues, columnNames) =>
             {
                 var namePtrs = new IntPtr[columnCount];
                 var valuePtrs = new IntPtr[columnCount];
@@ -435,12 +424,12 @@ namespace WinUiApp.Services
 
                 for (int i = 0; i < columnCount; i++)
                 {
-                    string colName = Marshal.PtrToStringAnsi(namePtrs[i]) ?? "";
+                    string colName = NativeSqliteHelper.PtrToStringUtf8(namePtrs[i]) ?? "";
                     if (!colName.Equals("value", StringComparison.OrdinalIgnoreCase)) continue;
 
                     string colVal = valuePtrs[i] == IntPtr.Zero
                         ? ""
-                        : (Marshal.PtrToStringAnsi(valuePtrs[i]) ?? "");
+                        : (NativeSqliteHelper.PtrToStringUtf8(valuePtrs[i]) ?? "");
 
                     if (!string.IsNullOrWhiteSpace(colVal))
                         list.Add(colVal);
@@ -448,7 +437,7 @@ namespace WinUiApp.Services
                 return 0;
             };
 
-            int rc = sqlite3_exec(
+            int rc = NativeSqliteHelper.sqlite3_exec(
                 db,
                 "SELECT value FROM evidence_source WHERE type='StaticImage' ORDER BY id;",
                 callback,

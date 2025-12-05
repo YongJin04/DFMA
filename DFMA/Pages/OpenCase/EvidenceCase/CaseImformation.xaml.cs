@@ -207,8 +207,7 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
 
             try
             {
-                try { NativeDllManager.LoadNativeLibrary("sqlite3.dll", @"dll"); } catch { }
-
+                // Microsoft.Data.Sqlite가 자동으로 네이티브 DLL을 관리합니다.
                 IntPtr db;
                 int flags = NativeSqliteHelper.SQLITE_OPEN_READWRITE;
                 int rc = NativeSqliteHelper.sqlite3_open_v2(dbPath, out db, flags, null);
@@ -334,8 +333,7 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
 
             try
             {
-                try { NativeDllManager.LoadNativeLibrary("sqlite3.dll", @"dll"); } catch { }
-
+                // Microsoft.Data.Sqlite가 자동으로 네이티브 DLL을 관리합니다.
                 IntPtr db;
                 int flags = NativeSqliteHelper.SQLITE_OPEN_READWRITE;
                 int rc = NativeSqliteHelper.sqlite3_open_v2(dbPath, out db, flags, null);
@@ -443,7 +441,7 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
         {
             var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-            ExecCallback callback = (arg, columnCount, columnValues, columnNames) =>
+            NativeSqliteHelper.ExecCallback callback = (arg, columnCount, columnValues, columnNames) =>
             {
                 var namePtrs = new IntPtr[columnCount];
                 var valuePtrs = new IntPtr[columnCount];
@@ -456,10 +454,10 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
 
                 for (int i = 0; i < columnCount; i++)
                 {
-                    string colName = Marshal.PtrToStringAnsi(namePtrs[i]) ?? string.Empty;
+                    string colName = NativeSqliteHelper.PtrToStringUtf8(namePtrs[i]) ?? string.Empty;
                     string colVal = valuePtrs[i] == IntPtr.Zero
                         ? string.Empty
-                        : (Marshal.PtrToStringAnsi(valuePtrs[i]) ?? string.Empty);
+                        : (NativeSqliteHelper.PtrToStringUtf8(valuePtrs[i]) ?? string.Empty);
 
                     if (colName.Equals("key", StringComparison.OrdinalIgnoreCase))
                         key = colVal;
@@ -474,7 +472,7 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
             };
 
             IntPtr errPtr;
-            int rc = sqlite3_exec(
+            int rc = NativeSqliteHelper.sqlite3_exec(
                 db,
                 "SELECT key, value FROM case_info;",
                 callback,
@@ -486,7 +484,7 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
                 string message = $"SQLite SELECT 오류 (case_info, rc={rc})";
                 if (errPtr != IntPtr.Zero)
                 {
-                    message += ": " + Marshal.PtrToStringAnsi(errPtr);
+                    message += ": " + (NativeSqliteHelper.PtrToStringUtf8(errPtr) ?? "");
                     NativeSqliteHelper.sqlite3_free(errPtr);
                 }
                 throw new InvalidOperationException(message);
@@ -500,7 +498,7 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
         {
             var list = new List<EvidenceSourceItem>();
 
-            ExecCallback callback = (arg, columnCount, columnValues, columnNames) =>
+            NativeSqliteHelper.ExecCallback callback = (arg, columnCount, columnValues, columnNames) =>
             {
                 var namePtrs = new IntPtr[columnCount];
                 var valuePtrs = new IntPtr[columnCount];
@@ -514,10 +512,10 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
 
                 for (int i = 0; i < columnCount; i++)
                 {
-                    string colName = Marshal.PtrToStringAnsi(namePtrs[i]) ?? string.Empty;
+                    string colName = NativeSqliteHelper.PtrToStringUtf8(namePtrs[i]) ?? string.Empty;
                     string colVal = valuePtrs[i] == IntPtr.Zero
                         ? string.Empty
-                        : (Marshal.PtrToStringAnsi(valuePtrs[i]) ?? string.Empty);
+                        : (NativeSqliteHelper.PtrToStringUtf8(valuePtrs[i]) ?? string.Empty);
 
                     if (colName.Equals("id", StringComparison.OrdinalIgnoreCase))
                         long.TryParse(colVal, out id);
@@ -541,7 +539,7 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
             };
 
             IntPtr errPtr;
-            int rc = sqlite3_exec(
+            int rc = NativeSqliteHelper.sqlite3_exec(
                 db,
                 "SELECT id, type, value FROM evidence_source WHERE type = 'StaticImage';",
                 callback,
@@ -553,7 +551,7 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
                 string message = $"SQLite SELECT 오류 (evidence_source, rc={rc})";
                 if (errPtr != IntPtr.Zero)
                 {
-                    message += ": " + Marshal.PtrToStringAnsi(errPtr);
+                    message += ": " + (NativeSqliteHelper.PtrToStringUtf8(errPtr) ?? "");
                     NativeSqliteHelper.sqlite3_free(errPtr);
                 }
                 throw new InvalidOperationException(message);
@@ -562,20 +560,5 @@ namespace WinUiApp.Pages.ArtifactsAnalysis
             return list;
         }
 
-        // sqlite3_exec 델리게이트 및 extern 선언
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate int ExecCallback(
-            IntPtr arg,
-            int columnCount,
-            IntPtr columnValues,
-            IntPtr columnNames);
-
-        [DllImport("sqlite3", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        private static extern int sqlite3_exec(
-            IntPtr db,
-            string sql,
-            ExecCallback callback,
-            IntPtr arg,
-            out IntPtr errMsg);
     }
 }
